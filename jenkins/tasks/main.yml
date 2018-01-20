@@ -1,6 +1,8 @@
 ---
-# tasks file for jenkins
- name: Installing Jenkins
- yum: 
-  update_cache:yes
-    
+# tasks file for Jenkins
+# Setup/install tasks.
+  - include: setup-RedHat.yml
+    when: ansible_os_family == 'RedHat'
+
+  - include: setup-Debian.yml
+    when: ansible_os_family == 'Debian'

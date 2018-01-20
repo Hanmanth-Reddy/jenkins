@@ -1,0 +1,8 @@
+---
+  -  name: Installing Jenkins ..
+     apt-get:
+        name: https://pkg.jenkins.io/debian-stable/binary/jenkins_{{jenkins_version_debian}}.deb
+        state: present
+
+  -  name: Ensure Jenkins service should be started
+     service: name=jenkins state:started

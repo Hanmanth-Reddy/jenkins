@@ -1,0 +1,9 @@
+---
+  - name: Installing Jenkins
+    yum:
+      #update_cache:yes
+      name: https://pkg.jenkins.io/redhat-stable/jenkins-{{jenkins_version_redhat}}.noarch.rpm
+      state: present
+
+  - name: Service should be installed
+    service: name=jenkins state=started
