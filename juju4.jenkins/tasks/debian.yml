@@ -1,0 +1,19 @@
+---
+
+- name: apt | jenkins dependencies
+  apt: name={{item}} state=present
+  with_items:
+    - git
+    - subversion
+    - graphviz
+
+- name: apt | jenkins dependencies - extra
+  apt: name={{item}} state=present
+  with_items:
+    - "{{ jenkins_extra_pkg }}"
+
+- name: Ensure aide config directory exists
+  file: dest=/etc/aide/aide.conf.d state=directory mode=0755
+- name: add additional aide HIDS configuration
+  template: src=99_aide_local_jenkins dest=/etc/aide/aide.conf.d/99_aide_local_jenkins mode=0644
+

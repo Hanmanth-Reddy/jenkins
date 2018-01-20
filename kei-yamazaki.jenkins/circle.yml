@@ -1,0 +1,12 @@
+machine:
+  services:
+    - docker
+  ruby:
+    version: 2.1.4
+dependencies:
+  bundler:
+    without: [production, kitchen_vagrant, kitchen_cloud, development]
+test:
+  override:
+    - bundle exec kitchen list
+    - bundle exec kitchen test -p -d never

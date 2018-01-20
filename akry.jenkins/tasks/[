@@ -1,0 +1,121 @@
+---
+- include: install_dependencies.yml
+
+- name: download jenkins repo file
+  get_url:
+    url: "{{ jenkins_repo_url }}"
+    dest: /etc/yum.repos.d/jenkins.repo
+  when: jenkins_repo_url is defined
+
+- name: import jenkins rpm key
+  rpm_key:
+    state: present
+    key: "{{ jenkins_rpm_key }}"
+    validate_certs: no
+  when: jenkins_rpm_key is defined
+
+- name: install jenkins
+  package:
+    name: jenkins
+    state: latest
+  when: jenkins_version is not defined
+
+- name: download specific version of jenkins
+  get_url:
+    url: "{{ jenkins_package_url }}/jenkins-{{ jenkins_version }}.noarch.rpm"
+    dest: /tmp/jenkins.rpm
+  when: jenkins_version is defined
+
+- name: install specific version of jenkins
+  package:
+    name: /tmp/jenkins.rpm
+    state: installed
+  when: jenkins_version is defined
+
+- name: set jenkins_home
+  lineinfile:
+    dest: /etc/sysconfig/jenkins
+    regexp: "^JENKINS_HOME*"
+    line: "JENKINS_HOME={{ jenkins_home }}"
+  register: jenkins_config_changed
+  when: jenkins_home is defined
+
+- name: set jenkins_java_options
+  lineinfile:
+    dest: /etc/sysconfig/jenkins
+    regexp: "^JENKINS_JAVA_OPTIONS*"
+    line: "JENKINS_JAVA_OPTIONS={{ jenkins_java_options }}"
+  register: jenkins_config_changed
+  when: jenkins_java_options is defined
+
+- name: set jenkins_port
+  lineinfile:
+    dest: /etc/sysconfig/jenkins
+    regexp: "^JENKINS_PORT*"
+    line: "JENKINS_PORT={{ jenkins_port }}"
+  register: jenkins_config_changed
+  when: jenkins_port is defined
+
+- name: set jenkins_listen_address
+  lineinfile:
+    dest: /etc/sysconfig/jenkins
+    regexp: "^JENKINS_LISTEN_ADDRESS*"
+    line: "JENKINS_LISTEN_ADDRESS={{ jenkins_listen_address }}"
+  register: jenkins_config_changed
+  when: jenkins_listen_address is defined
+
+- name: set jenkins_java_options
+  replace:
+    path: /etc/sysconfig/jenkins
+    regexp: '^JENKINS_JAVA_OPTIONS="(.+)"'
+    replace: 'JENKINS_JAVA_OPTIONS="\1 {{ jenkins_java_options }}"'
+    backup: yes
+  register: jenkins_config_changed
+  when: jenkins_java_options is defined
+
+# - name: set jenkins_java_options
+#   lineinfile:
+#     dest: /etc/sysconfig/jenkins
+#     regexp: '^JENKINS_JAVA_OPTIONS="(.*)"'
+#     line: 'JENKINS_JAVA_OPTIONS="\1 {{ jenkins_java_options }}'
+#   register: jenkins_config_changed
+#   when: jenkins_java_options is defined
+
+- name: restart jenkins
+  service: name=jenkins state=restarted
+  when: jenkins_config_changed is defined
+
+- name: wait until jenkins becomes available
+  wait_for:
+    host: localhost
+    port: "{{ jenkins_port }}"
+    delay: 10
+
+- name: install jenkins-cli
+  get_url:
+    url: "http://localhost:{{ jenkins_port }}/jnlpJars/jenkins-cli.jar"
+    dest: "{{ jenkins_home }}/jenkins-cli.jar"
+  register: jenkins_cli
+  until: "'OK' in jenkins_cli.msg or 'file already exists' in jenkins_cli.msg"
+  retries: 10
+  delay: 10
+
+- name: create jenkins update directory
+  file:
+    path: "{{ jenkins_home }}/updates"
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+    state: directory
+
+- name: put update-center.json
+  shell: curl -L http://updates.jenkins-ci.org/update-center.json | sed '1d;$d' > /{{jenkins_home}}/updates/default.json
+  args:
+    creates: "{{ jenkins_home }}/updates/default.json"
+
+- name: set permissions for default.json
+  file:
+    path: "{{ jenkins_home }}/updates/default.json"
+    owner: jenkins
+    group: jenkins
+    mode: 0755

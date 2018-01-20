@@ -1,0 +1,13 @@
+---
+# tasks file for jenkins(On Debian family)
+- name: Create jenkins group
+  group: name=jenkins state=present
+  become: yes
+- name: Create jenkins user
+  user: >
+    name="jenkins"
+    shell="{{ jenkins_user_login_shell }}"
+    group="jenkins"
+  become: yes
+- name: Include tasks for Jenkins
+  include: "jenkins.yml"

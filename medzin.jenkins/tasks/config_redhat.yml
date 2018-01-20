@@ -1,0 +1,7 @@
+---
+- name: configure jenkins service
+  lineinfile:
+    dest: /etc/sysconfig/jenkins
+    regexp: ^HTTP_PORT
+    line: HTTP_PORT={{ jenkins_config_port }}
+    state: present

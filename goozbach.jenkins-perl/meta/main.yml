@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: Derek Carter
+  description: Jenkins Perl Role
+  company: Goozbach Infrastructure Solutions LLC
+  license: GPLv2
+  min_ansible_version: 1.3
+  platforms:
+  - name: EL
+    versions:
+    - 6
+  categories:
+  - development
+  - monitoring
+dependencies:
+  - goozbach.jenkins

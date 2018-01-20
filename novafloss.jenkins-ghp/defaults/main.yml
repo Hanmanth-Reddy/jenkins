@@ -1,0 +1,5 @@
+---
+jenkins_ghp_envvars: {}
+jenkins_ghp_username: jenkins
+jenkins_ghp_workdir: /var/lib/jenkins/ghp
+jenkins_ghp_loop: 20

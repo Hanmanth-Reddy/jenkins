@@ -1,0 +1,15 @@
+galaxy_info:
+  author: Marcelo Correia
+  company: Correia
+  description: "Marcelo Correia Jenkins2"
+  min_ansible_version: 2.0
+  license: MIT
+  platforms:
+  - name: Ubuntu
+    versions:
+      - all
+  categories:
+    - dev
+
+dependencies: []
+

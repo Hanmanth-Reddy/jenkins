@@ -1,0 +1,23 @@
+---
+
+jenkins_service_state: started
+jenkins_service_enable: true
+
+jenkins_home: /var/lib/jenkins
+jenkins_java_cmd: ""
+jenkins_user: jenkins
+jenkins_java_options: "-Djava.awt.headless=true"
+jenkins_port: "8080"
+jenkins_listen_address: ""
+jenkins_https_port: ""
+jenkins_https_keystore: ""
+jenkins_https_keystore_password: ""
+jenkins_https_listen_address: ""
+
+jenkins_debug_level: "5"
+jenkins_enable_access_log: "no"
+jenkins_handler_max: "100"
+jenkins_handler_idle: "20"
+jenkins_args: ""
+
+jenkins_jar_location: /usr/lib/jenkins/jenkins.war

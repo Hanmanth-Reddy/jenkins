@@ -1,0 +1,5 @@
+---
+jenkins_epo_envvars: {}
+jenkins_epo_username: jenkins
+jenkins_epo_workdir: /var/lib/jenkins/epo
+jenkins_epo_loop: 20

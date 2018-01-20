@@ -1,0 +1,34 @@
+---
+- name: install jenkins
+  apt: name=jenkins state=present
+
+- name: turn off jenkins2 setup wizard
+  lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^JAVA_ARGS='
+    line: 'JAVA_ARGS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'
+  register: result
+
+- name: restart jenkins with disabled setup wizard
+  service: name=jenkins state=restarted
+  when: result|changed
+
+- name: start jenkins
+  service: name=jenkins state=started
+
+# todo fix jenkins2+ initial auth
+- name: download jenkins-cli
+  get_url:
+    url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/jnlpJars/jenkins-cli.jar"
+    dest: "{{ jenkins_cli_path }}"
+  register: download_jenkins_cli
+  until: "'OK' in download_jenkins_cli.msg or 'file already exists' in download_jenkins_cli.msg"
+  retries: 5
+  delay: 15
+
+- name: install jenkins plugins
+  command: >
+    java -jar {{ jenkins_cli_path }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/ install-plugin {{ item }}
+    creates=/var/lib/jenkins/plugins/{{ item }}.jpi
+  with_items: "{{ jenkins_plugins }}"
+  notify: restart jenkins

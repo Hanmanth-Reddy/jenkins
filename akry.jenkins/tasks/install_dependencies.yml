@@ -1,0 +1,18 @@
+---
+- fail:
+    msg: "jenkins_java_pkg_name needs to be defined."
+  when: jenkins_java_pkg_name is not defined
+
+- name: install dependencies
+  package:
+    name:
+      - curl
+      - libselinux-python
+      -  "{{ jenkins_java_pkg_name }}"
+    state: installed
+
+    # - name: install specified java package
+    #   package:
+    #     name: "{{ jenkins_java_pkg_name }}"
+    #     state: present
+    #   when: jenkins_java_pkg_name is defined

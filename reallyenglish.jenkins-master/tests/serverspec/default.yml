@@ -1,0 +1,31 @@
+- hosts: localhost
+  roles:
+    - role: reallyenglish.apt-repo
+      when: ansible_os_family == "Debian"
+    - role: reallyenglish.redhat-repo
+      when: ansible_os_family == "RedHat"
+    - role: reallyenglish.java
+    - ansible-role-jenkins-master
+  vars_files:
+    - jenkins_master_ssh_private_key.yml
+  vars:
+    jenkins_master_url_prefix: /jenkins
+    jenkins_master_plugins:
+      - matrix-project
+      - git
+      - hipchat
+      - ssh-slaves
+    apt_repo_to_add:
+      - ppa:webupd8team/java
+    jenkins_master_ssh_passphrase: "passphrase"
+    jenkins_master_nodes:
+      - name: slave1
+        remotefs: /usr/local/jenkins
+        host: slave1.example.com
+        labels:
+          - label1
+          - label2
+      - name: slave2
+        remotefs: /usr/local/jenkins
+        host: 192.168.33.13
+    jenkins_master_port: 8280

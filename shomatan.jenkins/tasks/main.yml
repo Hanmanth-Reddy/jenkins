@@ -1,0 +1,29 @@
+---
+# install
+- include: install-{{ ansible_os_family }}.yml
+  static: no
+
+# configure
+- include: configure-{{ ansible_os_family }}.yml
+  static: no
+
+# service
+- name: Ensure jenkins is started and enabled to start at boot.
+  service: name=jenkins state=started enabled=yes
+  when: ansible_connection != 'docker'
+  
+# cli
+- name: Get the jenkins-cli jarfile from the Jenkins server.
+  get_url:
+    url: "http://localhost:{{ jenkins_port }}/jnlpJars/jenkins-cli.jar"
+    dest: "{{ jenkins_jar_location }}"
+  register: jarfile_get
+  until: "'OK' in jarfile_get.msg or 'file already exists' in jarfile_get.msg"
+  retries: 5
+  delay: 10
+  when: ansible_connection != 'docker'
+
+# plugin
+- include: manage-plugins.yml
+  static: no
+  when: ansible_connection != 'docker'

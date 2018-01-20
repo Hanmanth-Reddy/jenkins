@@ -1,0 +1,24 @@
+---
+# defaults file for jenkins_server
+jenkins_url: http://jenkins.plone.org/
+jenkins_server_name: jenkins.plone.org
+jenkins_port: 8080
+roboto_port: 8081
+dependencies:
+  - nginx
+
+# List of variables that need to be provided in order for this role to work.
+#
+#github_app_client_id: 1234567890
+#github_app_client_secret: 1234567890abcdef1234567890abcdef1234567890abcdef
+#jenkins_admins:
+#  - random_admin_1
+#  - random_admin_2
+#github_orgs:
+#  - org_1
+# node_names:
+#  - Node1
+#  - Node2
+# admin_email: joe@doe.io
+# simple_theme_css_url: http://somewhere.com/theme.css
+# simple_theme_js_url: http://somewhere.com/theme.js

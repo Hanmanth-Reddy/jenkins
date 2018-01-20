@@ -1,0 +1,32 @@
+---
+## FIXME! defaults/ does not seem to apply to meta dependencies. vars/ do
+##	we set vars here to apply to roles in meta
+
+### geerlingguy.jenkins ###
+
+## gitlab is taking 8080
+jenkins_http_port: 8888
+jenkins_url_prefix: ''
+#jenkins_url_prefix: '/jenkins'
+#jenkins_admin_username: admin
+#jenkins_admin_password: admin
+
+
+### geerlingguy.gitlab ###
+
+## Note: GitlabCE has its own nginx and need extra customization to behave as subdir... keeping separate
+#gitlab_external_url: "http://x.y.z.2:9090/"
+## FIXME! this settings make gitlab-ctl reconfigure failing
+#gitlab_redirect_http_to_https: false
+gitlab_create_self_signed_cert: false
+gitlab_nginx_listen_port: 9090
+## gitlab: cant set initial password?
+## http://docs.gitlab.com/ce/security/reset_root_password.html
+## set project limit? cli?
+## Admin Area: Settings
+## https://github.com/gitlabhq/gitlabhq/issues/10151
+## Disable external signup? cli?
+## Admin Area: Settings
+## set users? cli?
+## Enable InfluxDB Metrics ? cli?
+

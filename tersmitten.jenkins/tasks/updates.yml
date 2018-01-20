@@ -1,0 +1,30 @@
+# tasks file for jenkins
+---
+- name: updates | create directory
+  file:
+    path: "{{ jenkins_updates_path }}"
+    state: directory
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+    mode: 0755
+  tags:
+    - jenkins-updates-directory
+
+- name: updates | get (latest)
+  get_url:
+    url: "{{ jenkins_updates_url }}"
+    dest: "{{ jenkins_updates_path }}"
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+    mode: 0644
+  register: _jenkins_updates_download
+  tags:
+    - jenkins-updates-download
+
+- name: updates | update-center
+  shell: >
+    sed '1d;$d' {{ jenkins_updates_path }}/update-center.json > {{ jenkins_updates_path }}/default.json
+  notify: restart jenkins
+  when: _jenkins_updates_download | changed
+  tags:
+    - jenkins-updates-download

@@ -1,0 +1,35 @@
+---
+- name: "Jenkins authentication disabled"
+  lineinfile:
+    dest=/var/lib/jenkins/config.xml
+    regexp='<useSecurity>.*</useSecurity>'
+    line='  <useSecurity>false</useSecurity>'
+  notify: "Jenkins restart"
+
+# TODO: Make this works, is better approach
+#- name: "Jenkins authentication parameters removed"
+#  replace:
+#    dest=/var/lib/jenkins/config.xml
+#    regexp='\s*<{{item}}[.*\n]*{{item}}>\s*$'
+#  with_items:
+#    - authorizationStrategy
+#    - securityRealm
+#  notify: "Jenkins restart"
+
+- name: "Jenkins authentication parameters removed"
+  lineinfile:
+    dest=/var/lib/jenkins/config.xml
+    regexp='{{item}}'
+    state=absent
+  with_items:
+    - '<authorizationStrategy.*>'
+    - '<denyAnonymousReadAccess.*>'
+    - '</denyAnonymousReadAccess>'
+    - '</authorizationStrategy>'
+    - '<securityRealm.*>'
+    - '<disableSignup.*>'
+    - '</disableSignup>'
+    - '<enableCaptcha.*>'
+    - '</enableCaptcha>'
+    - '</securityRealm>'
+  notify: "Jenkins restart"

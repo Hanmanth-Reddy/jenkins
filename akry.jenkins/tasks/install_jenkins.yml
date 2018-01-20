@@ -1,0 +1,33 @@
+---
+- include: install_dependencies.yml
+
+- name: download jenkins repo file
+  get_url:
+    url: "{{ jenkins_repo_url }}"
+    dest: /etc/yum.repos.d/jenkins.repo
+  when: jenkins_repo_url is defined
+
+- name: import jenkins rpm key
+  rpm_key:
+    state: present
+    key: "{{ jenkins_package_key }}"
+    validate_certs: no
+  when: jenkins_rpm_key is defined
+
+- name: install jenkins
+  package:
+    name: jenkins
+    state: latest
+  when: jenkins_version is not defined or jenkins_version == ""
+
+- name: download specific version of jenkins
+  get_url:
+    url: "{{ jenkins_package_url }}/jenkins-{{ jenkins_version }}.noarch.rpm"
+    dest: /tmp/jenkins.rpm
+  when: jenkins_version is defined and jenkins_version != ""
+
+- name: install specific version of jenkins
+  package:
+    name: /tmp/jenkins.rpm
+    state: installed
+  when: jenkins_version is defined and jenkins_version != ""

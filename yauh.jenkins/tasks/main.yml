@@ -1,0 +1,41 @@
+---
+# tasks file for yauh.jenkins
+- name: Install required tools
+  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+       - ant
+       - apt
+       - curl
+       - git
+       - libpcre3-dev
+       - python-pycurl
+       - python-software-properties
+
+- name: Add Jenkins apt-key
+  action: apt_key url={{ jenkins_deb_key }} state=present
+
+- name: Add Jenkins repository
+  apt_repository: repo='{{ jenkins_deb_repo }}' state=present
+
+- name: Install Jenkins
+  apt: pkg=jenkins state=latest update_cache=yes cache_valid_time=3600
+
+- name: Set Jenkins port to {{ jenkins_port }}
+  lineinfile: dest=/etc/default/jenkins regexp="^HTTP_PORT=" line="HTTP_PORT={{ jenkins_port }}" state=present
+
+- name: Let Jenkins know the new port by restarting
+  service: name=jenkins state=restarted
+
+- name: Wait for Jenkins
+  wait_for: port=8080 delay={{ jenkins_start_delay }}
+
+- name: Get Jenkins cli
+  get_url: url=http://localhost:{{ jenkins_port }}/jnlpJars/jenkins-cli.jar dest=/tmp/jenkins-cli.jar
+
+- name: Get Jenkins plugins
+  command: java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins_port }} install-plugin {{ item }}
+  with_items: jenkins_plugins
+
+- service: name=jenkins state=restarted
+
+- file: path=/tmp/jenkins-cli.jar state=absent

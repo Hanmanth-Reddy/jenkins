@@ -1,0 +1,5 @@
+---
+# defaults file for jenkins
+jenkins_url: "http://localhost:8080"
+
+jenkins_plugins: []

@@ -1,0 +1,13 @@
+---
+
+# Install jenkins and set some minimal config
+- include: install.yml
+  tags: install
+
+# Update and install plugins
+- include: plugins.yml
+  tags: plugins
+
+# Jenkins slave tasks
+- include: slave.yml
+  tags: slave

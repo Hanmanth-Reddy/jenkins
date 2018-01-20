@@ -1,0 +1,40 @@
+---
+driver:
+  name: docker
+
+provisioner:
+  name: ansible_playbook
+  ansible_verbose: true
+  ansible_verbosity: 4
+  hosts: all
+  requirements_path: requirements.yml
+
+platforms:
+  - name: ubuntu-12.04
+    driver_config:
+      forward: 8080
+  - name: ubuntu-14.04
+    driver_config:
+      forward: 8080
+
+suites:
+  - name: default
+    provisioner:
+      hosts: jenkins-master
+      extra_vars:
+        jenkins_prefix: ''
+        jenkins_java_args: -Xmx128m
+        jenkins_user: kitchen
+        jenkins_group: kitchen
+        jenkins_plugins:
+          - git
+  - name: prefix
+    provisioner:
+      hosts: jenkins-master
+      extra_vars:
+        jenkins_prefix: /prefix
+        jenkins_java_args: -Xmx128m
+        jenkins_user: kitchen
+        jenkins_group: kitchen
+        jenkins_plugins:
+          - git

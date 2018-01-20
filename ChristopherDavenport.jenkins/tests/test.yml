@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  vars:
+    java_type: Open
+    java_version: "8"
+    jenkins_user: testuser
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=yes
+      changed_when: False
+      when: ansible_os_family == 'Debian'
+    - name: Create User
+      user:
+        name: "{{ jenkins_user }}"
+        state: present
+  roles:
+    - role_under_test
+  post_tasks:
+    - name: Wait For Service to Come Online
+      wait_for:
+        path: "{{ jenkins_initialAdminPassword_location }}"
+    - name: Final Pause
+      pause:
+        seconds: 5
+    - name: Get Default Password
+      command: cat {{ jenkins_initialAdminPassword_location }}
+      register: __jenkins_defaultPassword
+      changed_when: false
+    - name: Debug Password
+      debug: var=__jenkins_defaultPassword
+    - name: Check Working URI
+      uri:
+        url: http://0.0.0.0:8080
+        force_basic_auth: yes
+        return_content: yes
+        status_code: 200
+        follow_redirects: all
+        user: admin
+        password: "{{ __jenkins_defaultPassword.stdout }}"
+      register: __jenkins_webpage
+    - name: Debug Webpage
+      debug: var=__jenkins_webpage

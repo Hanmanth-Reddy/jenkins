@@ -1,0 +1,42 @@
+---
+# tasks file for ansible-role-jenkins-master
+
+- include_vars: "{{ ansible_os_family }}.yml"
+
+- include: "install-{{ ansible_os_family }}.yml"
+
+- include: settings.yml
+
+- name: Start jenkins
+  service:
+    name: "{{ jenkins_master_service }}"
+    state: started
+
+- name: Wait for Jenkins to start
+  shell: "curl -D - --silent --max-time 5 {{ jenkins_master_url }}/cli/"
+  register: result
+  until: (result.stdout.find("403 Forbidden") != -1) or (result.stdout.find("200 OK") != -1) and (result.stdout.find("Please wait while") == -1)
+  retries: "{{ jenkins_master_connection_retries }}"
+  delay: "{{ jenkins_master_connection_delay }}"
+  changed_when: false
+  always_run: yes
+
+- name: Download jenkins-cli
+  get_url:
+    url: "{{ jenkins_master_url }}/jnlpJars/jenkins-cli.jar"
+    dest: "{{ jenkins_master_cli_path }}"
+  register: register_get_url_jar
+
+- name: Set exec bit on jenkins_master_cli_path
+  file:
+    path: "{{ jenkins_master_cli_path }}"
+    mode: 0755
+
+- name: Remove Jenkins security init scripts after first startup.
+  file:
+    path: "{{ jenkins_master_home }}/init.groovy.d/basic-security.groovy"
+    state: absent
+
+- include: plugins.yml
+- include: credential.yml
+- include: nodes.yml

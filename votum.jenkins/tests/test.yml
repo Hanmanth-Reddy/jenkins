@@ -1,0 +1,11 @@
+---
+- hosts: all
+
+  vars:
+    jenkins_admin_users:
+      - username: jenkins.admin
+        password: jenkinsTest123
+
+  roles:
+    - geerlingguy.java
+    - role_under_test

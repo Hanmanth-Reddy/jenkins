@@ -1,0 +1,21 @@
+---
+# defaults file for yauh.jenkins
+jenkins_deb_repo: 'deb http://pkg.jenkins-ci.org/debian binary/' # Jenkins repository
+jenkins_deb_key: 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key' # Jenkins key
+jenkins_port: 8080
+jenkins_start_delay: 20 # number of seconds to wait until Jenkins comes up and is ready to serve
+jenkins_plugins:
+  - checkstyle
+  - cloudbees-folder
+  - credentials
+  - credentials-binding
+  - dry
+  - envinject
+  - git
+  - github-oauth
+  - htmlpublisher
+  - jdepend
+  - plot
+  - pmd
+  - violations
+  - xunit

@@ -1,0 +1,18 @@
+---
+dependencies:
+  - role: colstrom.apt-repository
+    repository_key: '0x9b7d32f2d50582e6'
+    repository_url: 'deb http://pkg.jenkins-ci.org/debian binary/'
+  - role: colstrom.java
+galaxy_info:
+  author: "Chris Olstrom"
+  description: "Jenkins Continuous Integration Server"
+  license: MIT
+  platforms:
+    - name: Ubuntu
+      versions:
+      - precise
+      - trusty
+      - utopic
+  categories:
+    - system

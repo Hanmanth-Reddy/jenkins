@@ -1,0 +1,38 @@
+---
+- name: Install dumb init.
+  apk:
+    name: dumb-init
+
+- name: Install ttf-dejavu
+  apk:
+    name: ttf-dejavu
+
+- name: Define jenkins version.
+  set_fact: jenkins_version=2.46.2
+
+- name: Add jenkins group.
+  shell: addgroup -g 1000 {{ jenkins_group }}
+
+- name: Add jenkins user.
+  shell: adduser -h {{ jenkins_home }} -u 1000 -G {{ jenkins_group }} -s /bin/bash -D {{ jenkins_user }}
+
+- name: Manage directories.
+  file:
+    path: "{{ item }}"
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+    state: directory
+  with_items:
+    - "{{ jenkins_home }}"
+    - /usr/share/jenkins
+
+- name: Download jenkins.war
+  get_url:
+    url: https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/{{ jenkins_version }}/jenkins-war-{{ jenkins_version }}.war
+    dest: /usr/share/jenkins/jenkins.war
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"    
+
+- name: Purge apk cache.
+  command: rm -rf /var/cache/apk/*
+  when: ansible_connection == 'docker'    

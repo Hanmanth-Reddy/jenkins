@@ -1,0 +1,37 @@
+---
+
+- name: Add Jenkins repo
+  yum_repository:
+    name: jenkins
+    baseurl: http://pkg.jenkins.io/redhat-stable
+    gpgkey: http://pkg.jenkins.io/redhat/jenkins.io.key
+    description: Jenkins official repo
+    gpgcheck: yes
+
+- name: Install Jenkins
+  package:
+    name: jenkins
+    state: present
+
+- name: Install jenkins_slave_extra_packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ jenkins_slave_extra_packages }}"
+
+- name: Install npm
+  package:
+    name: npm
+    state: present
+  when: "{{ jenkins_slave_extra_npm_packages | length > 0 }}"
+
+- name: Install jenkins_slave_extra_npm_packages
+  npm:
+    name: "{{ item }}"
+    global: yes
+  with_items: "{{ jenkins_slave_extra_npm_packages }}"
+
+- name: Install openssl
+  yum:
+    name: openssl
+    state: present

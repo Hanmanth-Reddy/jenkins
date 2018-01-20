@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: Kei YAMAZAKI
+  description: Jenkins master & plugins
+  company:
+  license: license (BSD)
+  min_ansible_version: 1.9
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+    - precise
+  categories:
+  - development
+dependencies:
+  - { role: smola.java }

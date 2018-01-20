@@ -1,0 +1,12 @@
+---
+
+- name: Make sure app is running
+  service: name=jenkins state=running
+
+- name: Make sure jenkins config up to date
+  template: >
+    src=etc/default/jenkins.j2
+    dest=/etc/default/jenkins
+    owner=root
+    group=root
+  notify: restart jenkins

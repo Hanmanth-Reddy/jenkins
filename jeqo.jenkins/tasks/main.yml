@@ -1,0 +1,4 @@
+---
+# tasks file for jenkins
+- include: install-{{ ansible_os_family }}.yml
+  become: yes

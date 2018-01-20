@@ -1,0 +1,52 @@
+---
+
+- name: Create Jenkins init directory
+  file:
+    path: "{{ jenkins_master_home }}/init.groovy.d"
+    state: directory
+    owner: "{{ jenkins_master_user }}"
+    group: "{{ jenkins_master_group }}"
+
+- meta: flush_handlers
+
+- name: Restart Jenkins
+  service:
+    name: "{{ jenkins_master_service }}"
+    state: restarted
+  when:
+    - register_basic_security is defined
+    - register_basic_security.changed
+
+- name: Create directory to store ssh key
+  file:
+    path: "{{ jenkins_master_home }}/.ssh"
+    state: directory
+    owner: "{{ jenkins_master_user }}"
+    group: "{{ jenkins_master_group }}"
+    mode: 0700
+
+- name: Create ssh private key
+  template:
+    src: id_rsa.j2
+    dest: "{{ jenkins_master_home }}/.ssh/id_rsa"
+    mode: 0600
+    owner: "{{ jenkins_master_user }}"
+    group: "{{ jenkins_master_group }}"
+    validate: openssl rsa -noout -check -passin pass:{{ jenkins_master_ssh_passphrase }} -in %s
+  register: register_jenkins_master_ssh_private_key
+
+- name: Register ssh public key
+  shell: openssl rsa -pubout -passin pass:{{ jenkins_master_ssh_passphrase }} -in {{ jenkins_master_home }}/.ssh/id_rsa | ssh-keygen -i -m pkcs8 -f /dev/stdin
+  register: register_jenkins_master_ssh_public_key
+  changed_when: False
+  always_run: yes
+  no_log: True
+
+- name: Create ssh public key
+  template:
+    src: id_rsa.pub.j2
+    dest: "{{ jenkins_master_home }}/.ssh/id_rsa.pub"
+    mode: 0644
+    owner: "{{ jenkins_master_user }}"
+    group: "{{ jenkins_master_group }}"
+    validate: ssh-keygen -l -f %s

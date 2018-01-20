@@ -1,0 +1,23 @@
+---
+# tasks file for jenkins_server
+
+- name: Update
+  sudo: yes
+  apt:
+    update_cache=yes
+
+- name: Install system dependencies
+  sudo: yes
+  apt:
+    name={{ item }}
+    state=installed
+  with_items: dependencies
+
+# Configure jenkins
+- include: jenkins.yml
+
+# Configure jenkins nodes
+- include: nodes.yml
+
+# Configure nginx
+- include: nginx.yml

@@ -1,0 +1,5 @@
+jenkins_epo_envvars:
+  GITHUB_TOKEN: fada
+  JENKINS_URL: http://localhost
+  JOBS_CREDENTIALS: github-https
+  VERBOSE: 1

@@ -1,0 +1,13 @@
+---
+- name: add jenkins GPG key
+  apt_key:
+    url: "{{ jenkins_apt_gpg_key_url }}"
+    state: present
+
+- name: add jenkins apt repository
+  apt_repository:
+    repo: "{{ jenkins_apt_repo_url }}"
+    state: present
+
+- name: install jenkins
+  apt: name=jenkins state=present update_cache=yes

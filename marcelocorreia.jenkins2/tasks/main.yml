@@ -1,0 +1,15 @@
+---
+- apt_key:
+    url="{{apt_key_url}}"
+    state=present
+  become: yes
+
+- apt_repository:
+    repo='{{jenkins_apt_repo}}'
+    state=present
+
+- apt:
+    name=jenkins
+    state=present
+
+

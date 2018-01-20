@@ -1,0 +1,39 @@
+---
+- name: install jenkins on debian family systems
+  include: install_debian.yml
+  when: ansible_os_family == "Debian"
+
+- name: install jenkins on redhat family systems
+  include: install_redhat.yml
+  when: ansible_os_family == "RedHat"
+
+- name: set jenkins location configuration
+  template:
+    src: jenkins.model.JenkinsLocationConfiguration.xml.j2
+    dest: /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml
+    owner: jenkins
+    group: jenkins
+    mode: 0644
+
+- name: configure jenkins on debian family systems
+  include: config_debian.yml
+  when: ansible_os_family == "Debian"
+
+- name: configure jenkins on redhat family systems
+  include: config_redhat.yml
+  when: ansible_os_family == "RedHat"
+
+- name: enable jenkins service
+  service: name=jenkins enabled=yes state=started
+
+- name: create jenkins-cli directory
+  file: path=/opt/jenkins-cli state=directory
+
+- name: get jenkins cli
+  get_url:
+    url: http://localhost:{{ jenkins_config_port }}/jnlpJars/jenkins-cli.jar
+    dest: "{{ jenkins_cli_dest }}"
+  register: get_url_result
+  until: "'OK' in get_url_result.msg"
+  retries: 10
+  delay: 10

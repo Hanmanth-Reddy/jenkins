@@ -1,0 +1,24 @@
+---
+- name: "Jenkins updated folder"
+  become_user: "{{jenkins_user}}"
+  file:
+    path="{{jenkins_home}}/updates"
+    state=directory
+
+- name: "Jenkins plugin data"
+  become_user: "{{jenkins_user}}"
+  shell: curl -L {{jenkins_update_url}} | sed '1d;$d' > "{{ jenkins_home }}/updates/default.json"
+  args:
+    creates: "{{jenkins_home}}/updates/default.json"
+
+- name: "Jenkins plugins"
+  shell: java -jar {{jenkins_cli}} -s {{jenkins_url}}/ install-plugin {{item}}
+  args:
+    creates: "{{jenkins_home}}/plugins/{{item}}.jpi"
+  with_items: "{{jenkins_plugins}}"
+  ignore_errors: true
+  register: jenkins_plugins_install
+
+- name: "Jenkins softly restarted"
+  shell: java -jar {{jenkins_cli}} -s {{jenkins_url}}/ safe-restart
+  when: jenkins_plugins_install.changed

@@ -1,0 +1,20 @@
+---
+jenkins_version: 1.609
+jenkins_sha256sum: 022d31ed0e105049968854a75039eae27c6fa7f10e75a97199d79c5632d03e89
+jenkins_location: /opt/jenkins.war
+jenkins_cli_location: /opt/jenkins-cli.jar
+jenkins_home: /var/jenkins
+jenkins_pid_dir: /var/run/jenkins
+jenkins_log_dir: /var/log/jenkins
+jenkins_cache_dir: /var/cache/jenkins
+jenkins_java_args: -Djava.awt.headless=true -Xmx256m
+jenkins_port: 8080
+jenkins_prefix: /
+jenkins_user: kitchen
+jenkins_group: kitchen
+jenkins_plugins:
+  - git
+  - ghprb
+java_packages:
+  - oracle-java8-installer
+  - oracle-java8-set-default

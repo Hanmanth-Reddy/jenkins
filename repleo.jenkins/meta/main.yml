@@ -1,0 +1,26 @@
+---
+dependencies:
+  - { role: williamyeh.oracle-java,
+      java_version: 8
+    }
+
+galaxy_info:
+  author: Jeroen Arnoldus, Geerlinggy
+  description: Jenkins CI Oracle JDK
+  company: "Repleo Amstelveen, Midwestern Mac, LLC"
+  license: "license (BSD, MIT)"
+  min_ansible_version: 1.9
+  platforms:
+  - name: EL
+    versions:
+    - 6
+    - 7
+  - name: Debian
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  galaxy_tags:
+    - development
+    - packaging

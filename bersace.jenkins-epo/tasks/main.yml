@@ -1,0 +1,56 @@
+---
+- name: install epo
+  become: yes
+  pip:
+    executable: pip3
+    name: jenkins-epo
+    state: latest
+  register: install_epo
+
+- name: create workdir
+  become: yes
+  file:
+    path: "{{ jenkins_epo_workdir }}"
+    mode: 0700
+    state: directory
+    owner: "{{ jenkins_epo_username }}"
+
+- name: create unit dir
+  become: yes
+  file:
+    path: /etc/systemd/system/jenkins-epo.service.d/
+    mode: 0700
+    state: directory
+
+- name: write unit overrides
+  become: yes
+  template:
+    src: service.conf
+    dest: /etc/systemd/system/jenkins-epo.service.d/ansible.conf
+  register: unit
+
+- name: edit environment file
+  become: yes
+  template:
+    src: environmentfile.conf
+    dest: /etc/jenkins-epo.conf
+    mode: 0600
+  register: envvars
+
+- name: reload systemd
+  when: install_epo|changed or unit|changed
+  become: yes
+  shell: systemctl daemon-reload
+
+- name: restart epo
+  become: yes
+  when: install_epo|changed or envvars|changed or unit|changed
+  service:
+    name: jenkins-epo
+    state: restarted
+
+- name: ensure epo is up
+  become: yes
+  service:
+    name: jenkins-epo
+    state: started

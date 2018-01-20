@@ -1,0 +1,14 @@
+---
+- name: "Jenkins SSH dir"
+  become_user: "{{jenkins_user}}"
+  file:
+    path: "~/.ssh"
+    state: "directory"
+
+- name: "Jenkins linux slaves key"
+  become_user: "{{jenkins_user}}"
+  copy:
+    dest: "~/.ssh/id_rsa.jenkins"
+    content: "{{jenkins_slave_private_key}}"
+    mode: "600"
+  when: jenkins_slave_private_key is defined

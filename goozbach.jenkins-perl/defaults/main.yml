@@ -1,0 +1,3 @@
+---
+jenkins_perl_plugins:
+  - tap.hpi

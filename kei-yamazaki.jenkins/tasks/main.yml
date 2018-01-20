@@ -1,0 +1,87 @@
+---
+- name: Install packages
+  apt: pkg={{ item }}
+  with_items:
+    - daemon
+    - net-tools
+    - psmisc
+
+- name: Create work directories
+  file:
+    path: "{{ item }}"
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+    mode: 0700
+    state: directory
+  with_items:
+    - "{{ jenkins_home }}"
+    - "{{ jenkins_pid_dir }}"
+    - "{{ jenkins_log_dir }}"
+    - "{{ jenkins_cache_dir }}"
+
+- name: Setup jenkins.war
+  get_url:
+    url: "http://mirrors.jenkins-ci.org/war/{{ jenkins_version }}/jenkins.war"
+    dest: "{{ jenkins_location }}"
+    sha256sum: "{{ jenkins_sha256sum }}"
+    force: yes
+    timeout: 60
+  notify:
+    - Remove Jenkins WAR cache
+    - Restart Jenkins
+
+- name: Register Jenkins service
+  template:
+    src: jenkins-default.j2
+    dest: /etc/default/jenkins
+  notify:
+    - Restart Jenkins
+
+- name: Register Jenkins service
+  template:
+    src: jenkins.conf.j2
+    dest: /etc/init.d/jenkins
+    mode: 0755
+  notify:
+    - Restart Jenkins
+
+- name: Start Jenkins
+  service: name=jenkins state=started enabled=yes
+
+- name: Wait for Jenkins to start up
+  wait_for:
+    host: localhost
+    port: "{{ jenkins_port }}"
+    timeout: 300
+
+- name: Install jenkins-cli.jar
+  get_url:
+    url: "http://localhost:{{ jenkins_port }}{{ jenkins_prefix }}/jnlpJars/jenkins-cli.jar"
+    dest: "{{ jenkins_cli_location }}"
+  register: cli
+  until: "'OK' in cli.msg or 'file already exists' in cli.msg"
+  retries: 5
+  delay: 10
+
+- name: Create Jenkins updates directory
+  file:
+    path: "{{ jenkins_home }}/updates"
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+    mode: 0755
+    state: directory
+
+- name: Update Jenkins plugin data
+  shell: |
+    curl --max-time 60 -L https://updates.jenkins-ci.org/update-center.json | sed '1d;$d' > {{ jenkins_home }}/updates/default.json; \
+    chown {{ jenkins_user }}.{{ jenkins_group }}; \
+    chmod 755 {{ jenkins_home }}/updates/default.json
+    creates={{ jenkins_home }}/updates/default.json
+
+- name: Install Jenkins plugins
+  shell: "java -jar {{ jenkins_cli_location }} -s http://localhost:{{ jenkins_port }}{{ jenkins_prefix }} install-plugin {{ item }}"
+  args:
+    creates: "{{ jenkins_home }}/plugins/{{ item }}.jpi"
+  with_items: jenkins_plugins
+  notify:
+    - Restart Jenkins

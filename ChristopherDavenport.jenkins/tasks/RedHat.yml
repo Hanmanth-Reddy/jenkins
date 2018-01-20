@@ -1,0 +1,78 @@
+---
+
+- name: Download Repository
+  get_url:
+    url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+
+- name: Import Jenkins Package Key
+  rpm_key:
+    state: present
+    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+- name: Install Jenkins
+  register: __jenkins_install
+  package:
+    name: jenkins
+    state: present
+
+- name: Apply Jenkins Config
+  register: __jenkins_config
+  template:
+    dest: /etc/sysconfig/jenkins
+    owner: root
+    group: root
+    mode: 0600
+    src: jenkins.j2
+
+- name: Ensure Correct Ownership
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
+  with_items:
+    - /var/log/jenkins
+    - /var/lib/jenkins
+    - /var/cache/jenkins
+
+- name: Reload Service
+  service:
+    name: jenkins
+    state: reloaded
+  when: __jenkins_install|changed or __jenkins_config|changed
+
+- name: Jenkins Service State
+  service:
+    name: jenkins
+    state: "{{ jenkins_service_state }}"
+
+- name: Jenkins Service Enable Manager
+  service:
+    name: jenkins
+    enabled: "{{ jenkins_service_enable }}"
+
+# - name: Enable Jenkins Firewall Ports
+#   firewalld:
+#     port: "{{ item }}"
+#     permanent: true
+#     state: enabled
+#   with_items: jenkins_firewall_ports
+#   when: jenkins_firewall_ports_enable
+#
+# - name: Enable Jenkins Firewall Services
+#   firewalld:
+#     service: "{{ item }}"
+#     permanent: true
+#     state: enabled
+#   with_items: jenkins_firewall_services
+#   when: jenkins_firewall_services_enable
+
+# - name: Find Files
+#   shell: find / -name "jenkins.war"
+#   register: __jenkins_war
+#   changed_when: false
+#
+# - debug: var=__jenkins_war
+#   changed_when: false

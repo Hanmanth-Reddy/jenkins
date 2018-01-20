@@ -1,0 +1,29 @@
+---
+
+- name: Apt Key
+  apt_key: url=http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key state=present
+  register: newKey
+  become: yes
+  become_method: sudo
+
+- name: Resource List
+  lineinfile: dest=/etc/apt/sources.list.d/jenkins.list line='deb http://pkg.jenkins-ci.org/debian binary/' state=present create=yes
+  register: newKey
+  become: yes
+  become_method: sudo
+
+- name: Apt Cache Update
+  apt: update_cache=yes
+  when: newKey|success
+  become: yes
+  become_method: sudo
+
+- name: Install jenkins
+  apt: name=jenkins state=present
+  become: yes
+  become_method: sudo
+
+- name: Enable Service
+  service: name=jenkins state=started enabled=yes
+  become: yes
+  become_method: sudo

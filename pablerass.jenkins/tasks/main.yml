@@ -1,0 +1,60 @@
+---
+# tasks file for jenkins
+- name: "Add Jenkins Apt key"
+  apt_key:
+    url=https://jenkins-ci.org/debian/jenkins-ci.org.key
+
+- name: "Add Jenkins repository"
+  copy:
+    dest=/etc/apt/sources.list.d/jenkins.list
+    content='deb http://pkg.jenkins.io/debian-stable binary/'
+
+- name: "Install Jenkins"
+  apt:
+    name=jenkins
+    update_cache=yes
+
+- include: user.yml
+
+- name: "Disable Jenkins wizard"
+  lineinfile:
+    dest=/etc/default/jenkins
+    insertafter='^JAVA_ARGS='
+    regexp='^JAVA_ARGS=\"\$JAVA_ARGS '
+    line='JAVA_ARGS="$JAVA_ARGS -Djenkins.install.runSetupWizard=false"'
+  register: jenkins_config_wizard
+  notify: "Jenkins restart"
+
+- name: "Jenkins config file created"
+  shell: "test -f /var/lib/jenkins/config.xml"
+  register: result
+  until: result.rc == 0
+  retries: 6
+  delay: 10
+  changed_when: false
+
+- include: config.yml
+
+- name: "Force Jenkins restart"
+  meta: flush_handlers
+
+- name: "Jenkins server started"
+  shell: "curl -D - --silent --max-time 5 {{jenkins_url}}/cli/"
+  args:
+    warn: false
+  register: result
+  until: (result.stdout.find("403 Forbidden") != -1) or (result.stdout.find("200 OK") != -1) and (result.stdout.find("Please wait while") == -1)
+  retries: 10
+  delay: 30
+  changed_when: false
+
+- name: "Jenkins-cli jarfile"
+  get_url:
+    url={{jenkins_url}}/jnlpJars/jenkins-cli.jar
+    dest="{{jenkins_cli}}"
+  register: jarfile_get
+  until: "'OK' in jarfile_get.msg or 'file already exists' in jarfile_get.msg"
+  retries: 5
+  delay: 10
+
+- include: plugins.yml

@@ -1,0 +1,9 @@
+---
+jenkins_user: jenkins
+jenkins_group: jenkins
+jenkins_port: 8080
+jenkins_home: /var/lib/{{ jenkins_user }}
+jenkins_jar_location: /opt/jenkins-cli.jar
+jenkins_server_url: "http://localhost:{{ jenkins_port }}"
+jenkins_default_plugins:
+  - git

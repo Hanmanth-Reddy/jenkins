@@ -1,0 +1,30 @@
+---
+
+- name: Install curl
+  pkgng:
+    name: curl
+    state: present
+
+- name: Install jenkins
+  pkgng:
+    name: "{{ jenkins_master_package }}"
+    state: present
+  notify: Create admin users
+
+- name: Patch rc script jenkins.patch
+  patch:
+    src: jenkins.patch
+    dest: /usr/local/etc/rc.d/jenkins
+  notify: Restart jenkins
+
+- name: Create rc.conf/jenkins
+  template:
+    src: FreeBSD/rc.jenkins.j2
+    dest: /etc/rc.conf.d/jenkins
+    validate: sh -n %s
+  notify: Restart jenkins
+
+- name: Enable jenkins
+  service:
+    name: "{{ jenkins_master_service }}"
+    enabled: yes

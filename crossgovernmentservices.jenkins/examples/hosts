@@ -1,0 +1,2 @@
+[examples]
+example ansible_ssh_host=10.42.0.6 ansible_ssh_port=22

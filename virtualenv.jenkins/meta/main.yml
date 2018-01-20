@@ -1,0 +1,20 @@
+---
+dependencies:
+  - { role: virtualenv.java }
+
+galaxy_info:
+  author: virtualenv
+  description: Jenkins CI
+  company: ""
+  license: "license (BSD, MIT)"
+  min_ansible_version: 1.4
+  platforms:
+  - name: Debian
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  categories:
+    - development
+    - packaging

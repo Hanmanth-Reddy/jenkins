@@ -1,0 +1,34 @@
+---
+
+- name: Add apt key for Jenkins
+  apt_key:
+    url: https://pkg.jenkins.io/debian/jenkins.io.key
+    state: present
+
+- name: Add apt repository for Jenkins
+  apt_repository:
+    repo: deb http://pkg.jenkins.io/debian-stable binary/
+    state: present
+
+- name: Install Jenkins
+  package:
+    name: jenkins
+    state: present
+
+- name: Install jenkins_slave_extra_packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ jenkins_slave_extra_packages }}"
+
+- name: Install npm
+  package:
+    name: npm
+    state: present
+  when: "{{ jenkins_slave_extra_npm_packages | length > 0 }}"
+
+- name: Install jenkins_slave_extra_npm_packages
+  npm:
+    name: "{{ item }}"
+    global: yes
+  with_items: "{{ jenkins_slave_extra_npm_packages }}"

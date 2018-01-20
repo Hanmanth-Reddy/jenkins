@@ -1,0 +1,15 @@
+galaxy_info:
+  author: Étienne BERSAC
+  description: Deploy jenkins-github-poller
+  company: PeopleDoc
+  license: BSD
+  min_ansible_version: 2.0
+
+  platforms:
+  - name: Debian
+    versions:
+    - jessie
+
+  galaxy_tags: [bot, ci, jenkins, ghp, github]
+
+dependencies: []

@@ -1,0 +1,32 @@
+---
+- name: Add apt key for jenkins project
+  apt_key: url=http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key state=present
+  sudo: yes
+
+- name: Add jenkins project apt repo to sources
+  apt_repository: repo='deb http://pkg.jenkins-ci.org/debian binary/' state=present
+  sudo: yes
+
+- name: Install Jenkins
+  apt: pkg="jenkins" state=latest update_cache=yes
+  sudo: yes
+
+- name: Update http port
+  lineinfile: dest=/etc/default/jenkins regexp='HTTP_PORT=.*' line='HTTP_PORT=8081' state=present
+  sudo: yes
+  notify: Restart Jenkins
+
+#- name: Add apache site
+#  template: src=jenkins-apache2-site.j2 dest=/etc/apache2/sites-available/jenkins.conf owner=root group=root mode=0644
+#  sudo: yes
+#  notify: 
+#  - Enable proxy module
+#  - Enable jenkins site
+
+- name: Create directory for jenkins backup
+  file: path=/opt/jenkins state=directory owner=jenkins group=nogroup
+  sudo: yes
+  sudo_user: jenkins  
+
+- name: Install cron to backup jenkins
+  cron: state=present name="Backup Jenkins" minute=0 hour=2 job="tar zcvf /opt/jenkins/backup.tar.gz -C /opt/jenkins /var/lib/jenkins"

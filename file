@@ -1,0 +1,148 @@
+ Name                                                         Description
+ ----                                                         -----------
+ mashimom.jenkins_role                                        
+ sergeyhush.jenkins                                           Jenkins
+ crossgovernmentservices.jenkins                              Jenkins CI
+ courtlandj.jenkins                                           Jenkins CI
+ dhs-shine.jenkins                                            Jenkins CI
+ ohtomi.jenkins2                                              Jenkins2
+ binarytemple.jenkins                                         Jenkins CI
+ Ochir.jenkins_centos                                         Jenkins CI
+ votum.jenkins                                                Jenkins CI
+ bastly.jenkins                                               Jenkins CI
+ acceleanu.jenkins                                            Jenkins CI
+ virtualenv.jenkins                                           Jenkins CI
+ v0rts.jenkins                                                Jenkins CI
+ forsingh.jenkins                                             Jenkins CI
+ TuxOtaku.jenkins                                             Jenkins CI
+ blburns.jenkins                                              Jenkins CI
+ raguilera82.jenkins                                          Jenkins CI
+ ChristopherDavenport.jenkins                                 Jenkins
+ jhammell.jenkins                                             Jenkins CI
+ geerlingguy.jenkins                                          Jenkins CI
+ goozbach.jenkins                                             Jenkins basic setup
+ junaid18183.jenkins                                          Installs the Jenkins
+ alexagranov.jenkins-oracle-java                              Jenkins CI
+ AsianChris.jenkins                                           jenkins installation
+ medzin.jenkins                                               Jenkins CI Ansible role
+ marcelocorreia.jenkins2                                      Marcelo Correia Jenkins2
+ oclaussen.ansible-role-jenkins                               Jenkins CI
+ sansible.jenkins_server                                      Install Jenkins Server.
+ idealista.jenkins-role                                       Jenkins Server
+ EncoreTechnologies.ansible-role-jenkins                      Jenkins CI
+ pgporada.jenkins                                             Installs Jenkins
+ aldavud.ansible-role-jenkins2                                Jenkins2
+ shomatan.jenkins                                             Installs jenkins.
+ waltervargas.ansible-role-jenkins                            Jenkins CI
+ entercloudsuite.jenkins                                      Playbook for Jenkins
+ repleo.jenkins                                               Jenkins CI Oracle JDK
+ pkorobeinikov.jenkins                                        Jenkins installation.
+ grlee.jenkins_ubuntu                                         Installs jenkins on ubuntu
+ resmo.jenkins                                                Ansible Jenkins Role
+ jackl0phty.ansible-role-jenkins                              Jenkins CI
+ ykhrustalev.jenkins                                          Jenkins CI server
+ exolink.ansible-role-jenkins                                 Jenkins CI
+ wtanaka.jenkins                                              Install Jenkins
+ davenport-ans.ansible-role-jenkins                           Jenkins
+ leifmadsen.ansible-role-jenkins                              Jenkins CI
+ juju4.ansible-role-jenkins                                   Jenkins CI
+ olo-dw.ansible-role-jenkins                                  Jenkins CI
+ akry.jenkins                                                 jenkins installer
+ plone.plone_jenkins_server                                   Jenkins CI
+ goozbach.jenkins-perl                                        Jenkins Perl Role
+ avanov.jenkins                                               Ansible role for Jenkins CI
+ jeqo.jenkins                                                 install and configure jenkins
+ tersmitten.jenkins                                           Set up jenkins in Ubuntu systems
+ ChristopherDavenport.jenkins-slave                           Jenkins Slave Setup
+ reallyenglish.jenkins-slave                                  Configures Jenkins slave
+ ccollicutt.jenkins                                           Deploy Jenkins with HTTPS
+ reallyenglish.jenkins-master                                 Configures Jenkins master
+ suzuki-shunsuke.jenkins-centos                               Install Jenkins on CentOS
+ suzuki-shunsuke.jenkins-ubuntu                               Install Jenkins on Ubuntu
+ FGtatsuro.jenkins                                            Ansible role for jenkins
+ openstack.jenkins                                            Ansible role to manage Jenkins
+ kei-yamazaki.jenkins                                         Jenkins master & plugins
+ colstrom.jenkins                                             Jenkins Continuous Integration Server
+ bersace.jenkins-epo                                          Deploy Jenkins EPO
+ erjac77.jenkins                                              Install Jenkins CI on various platforms
+ pablerass.jenkins                                            Install a basic Jenkins server
+ reynn.jenkins-swarm                                          Provision a Jenkins agent
+ juju4.jenkins                                                setup jenkins with java
+ avinash6784.jenkins                                          Ansible role to install Jenkins
+ novafloss.jenkins-node                                       Provision Jenkins SSH slave using jenkins-api module
+ mrlesmithjr.jenkins                                          Installs and configures Jenkins CI https://jenkins-ci.org/
+ goozbach.jenkins-git                                         Jenkins Git and Github support
+ alban.andrieu.jenkins-slave                                  A role for installing jenkins-slave
+ yauh.jenkins                                                 Set up Jenkins Continuous Integration server
+ novafloss.jenkins-ghp                                        Deploy jenkins-github-poller
+ fdupoux.jenkins                                              Ansible role to manage a Jenkins server configuration
+ fatal-exception.jenkins                                      Install and configure Jenkins CI server
+ haos616.docker-jenkins                                       Role to use Jenkins in Docker
+ wurbanski.jenkins-swarm-agent                                Provision a Jenkins Swarm agent
+ trombik.ansible-role-jenkins-slave                           Configures Jenkins slave
+ wunzeco.jenkins                                              Install and configure Jenkins CI server
+ alban.andrieu.jenkins-swarm                                  A role for installing jenkins-swarm
+ azavea.jenkins                                               An Ansible role for installing Jenkins.
+ GielDeBleser.Ansible-Jenkins-Maven                           Jenkins server - Maven - Githubconnection
+ kobanyan.jenkins-jnlp-slave                                  Install Jenkins JNLP slave.
+ HanXHX.jenkins-php                                           Jenkins-PHP for Debian
+ SoInteractive.jenkins                                        Role to install Jenkins with basic configuration
+ NINEJKH.jenkins                                              Installs Jenkins on Debian-like systems.
+ wikivoks.jenkins-swarm-slave                                 Jenkins Swarm Slave installation
+ clayman74.jenkins                                            Jenkins CI server into Docker containers
+ trombik.ansible-role-jenkins-master                          Configures Jenkins master
+ SyedMuhammadSufyian.jenkins                                  your description
+ nosherwanijaz.jenkins                                        your description
+ plone.plone_jenkins_node                                     Jenkins CI Node
+ demoglot.jenkins                                             your description
+ Stouts.jenkins                                               Ansible role for manage Jenkins CI (installation, plugins, roles)
+ jtyr.jenkins_master                                          An Ansible role that installs Jenkins Master server
+ Azulinho.azulinho-jenkins-plugins                            Ansible role for installing jenkins plugins
+ yauh.jenkins-php                                             Ansible role to set up Jenkins for PHP
+ emmetog.jenkins                                              Installs and completely configures Jenkins using Ansible
+ AAROC.CODE-RADE-jenkins-role                                 Role to deploy and configure Jenkins
+ stevehouel.jenkins-role                                      Ansible galaxy role used to deploy a Jenkins docker instance
+ ThePrudents.jenkins2                                         Ready to use Jenkins with set of optional bundled plugins.
+ juju4.ansible-jenkinsenv                                     setup jenkins test environment. It can be executed on master or nodes.
+ flyapen.jenkins                                              Role to install Jenkins and install/update plugins
+ bronzdoc.jenkins-docker-service                              your description
+ infOpen.jenkins                                              Install and configure Jenkins and some plugins
+ novafloss.jenkins-api                                        Install jenkins-python + include ansible binding module
+ Azulinho.azulinho-jenkins-server                             Ansible role for installing a jenkins-server
+ Azulinho.azulinho-jenkins-kick-pipelines                     Ansible role for kicking jenkins pipelines
+ jtyr.jenkins_slave                                           An Ansible role that installs Jenkins Slave server
+ vamsi8977.jenkins-shravan                                    Role to install Jenkins and install/update plugins
+ karlmdavis.jenkins2                                          This Ansible role can be used to install and manage Jenkins 2.
+ REI-Systems.jenkins                                          Installs and completely configures Jenkins using Ansible
+ awasilyev.jenkins-container                                  Ansible Container role that creates a jenkins container.
+ ThirteenLtda.autoproj-jenkins                                Ansible role for the company-installed Jenkins instances
+ pablerass.jenkins-slave-linux                                Install a basic Jenkins Linux slave
+ pablerass.jenkins-slave-windows                              Install a basic Jenkins Windows slave
+ hoall.jenkins                                                This role installs jenkins in the default way of the jenkins project.
+ doudou.autoproj-jenkins                                      Ansible role to setup a Jenkins server ready to be use with autoproj-jenkins
+ peopledoc.ansible-role-jenkins-node                          Provision Jenkins SSH slave using jenkins-api module
+ therelaxist.ans-role-jenkins                                 your description
+ bishopbm1.ansible-features                                   Jenkins CI Additional features
+ vamsi8977.solita.jenkins                                     Jenkins installations entirely under configuration management
+ Azulinho.azulinho-jenkins-reconfigure-jobs-using-job-builder Ansible role for configuring jobs in jenkins using python jenkins-job-builder
+ shelleg.juseppe                                              Launch jenkins update site in a container
+ Azulinho.azulinho-yum-repo-jenkins                           Ansible role for deploying the jenkins yum repository
+ Azulinho.azulinho-jenkins-reconfigure-jobs-using-jinja2      Ansible role for configuring jobs in jenkins using Jinja2 templating
+ Azulinho.azulinho-jenkins-reconfigure-jobs-using-job-dsl     Ansible role for configuring jobs in jenkins using the DSL
+ softasap.sa-box-jenkins                                      Ready to use Jenkins with set of optional bundled plugins. Backup/restore on a board.
+ RealSalmon.jenkins-master                                    A simple Jenkins install with options for using an nginx proxy and restoring from a backup file.
+ whirm.jenkins_slavee                                         Sets up everything needed for a host to be a Jenkins slave for the Tribler project
+ wunzeco.jenkins-extra                                        Extra Jenkins config like create job credentials, set aws credential profile, copy ssh keys
+ Azulinho.azulinho-jenkins-job-builder                        Ansible role for install the python tool jenkins-job-builder
+ Azulinho.azulinho-jenkins-fully-baked                        Ansible role for deploying a fully configured jenkins box
+ radamanth.jenkins-ansible                                    Small ansible role designed to install jenkins on an ubuntu server behind an apache2 reverse proxy
+ mmagonde.jenkins-swarm                                       Ansible role to install jenkins agent using swarm for windows
+ capitanh.jenkins-ansible-role                                This role installs jenkins ci server, including configured plugins
+ kaguxmail.Stouts_jenkins                                     Ansible role for manage Jenkins CI (installation, plugins, roles)
+ openstack.jenkins-job-builder                                Jenkins Job Builder takes simple descriptions of Jenkins jobs in YAML or
+JSON format and uses them to configure Jenkins. You can keep your job
+descriptions in human readable text format in a version control system to
+make changes and auditing easier.
+ jackdengtw.jackdengtw.jenkins_plugins                        A role to provide a idempotent way to manage jenkins plugins
+ jtyr.jjb                                                     A role that installs and runs Jenkins Job Builder.
+ lafarer.osx-jenv                                             Ansible role to install and configure jenv(Java Environment Manager) on OSX.

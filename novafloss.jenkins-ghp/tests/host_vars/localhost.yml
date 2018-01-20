@@ -1,0 +1,5 @@
+jenkins_ghp_envvars:
+  GITHUB_TOKEN: fada
+  JENKINS_URL: http://localhost
+  GHP_JOBS_CREDENTIALS: github-https
+  GHP_VERBOSE: 1

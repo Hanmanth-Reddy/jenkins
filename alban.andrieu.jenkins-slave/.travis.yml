@@ -1,0 +1,79 @@
+---
+language: python
+python:
+  - 2.7
+#  - 3.3
+#  - 3.4
+#  - 3.5
+cache:
+  directories:
+    - $HOME/.cache/pip
+env:
+#  - ANSIBLE_VERSION=latest
+  - ANSIBLE_VERSION=2.4.1.0
+#  - ANSIBLE_VERSION=2.3.1.0
+#  - ANSIBLE_VERSION=2.2.2.0  
+cache: bundler
+#sudo: false
+sudo: required
+dist: trusty
+
+branches:
+  only:
+    - master
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install curl
+  - sudo apt-get install -qq python-apt python-pycurl
+
+install:
+  # Install Ansible.
+  - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi
+  - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible-lint; fi
+
+  # Add ansible.cfg to pick up roles path.
+  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+  
+  # Update Ansible submodule.
+  - git pull && git submodule init && git submodule update && git submodule status
+  - git submodule foreach git checkout master
+
+  - ansible-galaxy install -r requirements.yml -p ./roles/ --ignore-errors
+
+script:
+  # Check ansible version
+  - ansible --version
+
+  # Add ansible.cfg to pick up roles path.
+  #- "{ echo '[defaults]'; echo 'roles_path = ./roles'; } >> ansible.cfg"
+  #- export ANSIBLE_ROLES_PATH="../"
+
+  # Prepare tests
+  #- echo localhost > hosts
+
+  # Check syntax
+  - ansible-playbook -i ./hosts --syntax-check ./jenkins-slave.yml -vvvv --connection=local -e "python_versions=[2.7]"
+
+  # First run
+  # Run the role/playbook with ansible-playbook.
+#  - travis_wait 30 
+  - ansible-playbook -i ./hosts ./jenkins-slave.yml --connection=local --sudo -vvvv -e "python_versions=[2.7]"
+
+  # Run the role/playbook again, checking to make sure it's idempotent.
+#  - >
+#    ansible-playbook -i hosts jenkins-slave.yml --connection=local --sudo -vvvv -e "python_versions=[2.7]"
+#    | grep -q 'changed=0.*failed=0'
+#    && (echo 'Idempotence test: pass' && exit 0)
+#    || (echo 'Idempotence test: fail' && exit 0)
+
+  - id -u jenkins | grep -q "no" && (echo "user not found" && exit 1) || (echo "user found" && exit 0)
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+  email:
+    recipients:
+      - alban.andrieu@nabla.mobi
+#      - other@example.com
+    on_success: [always|never|change] # default: change
+    on_failure: [always|never|change] # default: always

@@ -1,0 +1,4 @@
+---
+apt_key_url: "https://jenkins-ci.org/debian/jenkins-ci.org.key"
+jenkins_apt_repo: "deb http://pkg.jenkins-ci.org/debian binary/"
+

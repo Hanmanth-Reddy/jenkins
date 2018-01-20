@@ -1,0 +1,4 @@
+*.retry
+ansible.cfg
+# Ignore all my* file, for dev.
+my*

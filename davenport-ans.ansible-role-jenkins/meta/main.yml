@@ -1,0 +1,18 @@
+dependencies:
+  - ChristopherDavenport.universal-java
+
+galaxy_info:
+  author: Christopher Davenport
+  description: Jenkins
+  company: Eckerd College
+  license: MIT
+
+  min_ansible_version: 2.1
+
+  galaxy_tags:
+    - deployment
+
+  platforms:
+    - name: EL
+      versions:
+          - 7

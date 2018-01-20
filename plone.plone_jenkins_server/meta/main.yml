@@ -1,0 +1,59 @@
+---
+galaxy_info:
+  author: Plone Foundation
+  description: Jenkins CI
+  company: Plone Foundation
+  license: license (GPLv2)
+  min_ansible_version: 1.6.7
+  platforms:
+  - name: Ubuntu
+    versions:
+      - trusty
+  categories:
+  - development
+dependencies:
+ - { role: ansible-jenkins,
+     plugins: [
+       'python',
+       'violations',
+       'build-user-vars-plugin',
+       'jquery',
+       'dashboard-view',  # adds dashboard view for front-page
+       'extra-columns',  # adds test results column to views
+       'greenballs',
+       'simple-theme-plugin',
+       'robot',
+       'notification',
+       'throttle-concurrents',
+       'disk-usage',
+       'CustomHistory',
+       'email-ext',
+       'xvfb',
+       'port-allocator',
+       'build-timeout',
+       'ws-cleanup',
+       'parameterized-trigger',
+       'envinject',
+       'copyartifact',
+       'github-oauth',
+       'github',
+       'clone-workspace-scm',
+       'htmlpublisher',
+       'github-api', # dep
+       'git-client', # dep
+       'scm-api', # dep
+       'matrix-project', # dep
+       'mailer', # dep
+       'git', # dep
+       'workflow-aggregator', # workflow
+       'workflow-api', # workflow dep
+       'workflow-basic-steps', # workflow dep
+       'workflow-cps', # workflow dep
+       'workflow-cps-global-lib', # workflow dep
+       'workflow-durable-task-step', # workflow dep
+       'workflow-job', # workflow dep
+       'workflow-scm-step', # workflow dep
+       'workflow-step-api', # workflow dep
+       'workflow-support', # workflow dep
+     ]
+   }

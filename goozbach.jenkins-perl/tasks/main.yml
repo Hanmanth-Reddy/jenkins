@@ -1,0 +1,25 @@
+---
+- name: install jenkins-perl packages loop
+  yum: name={{ item }} state=installed enablerepo=epel*
+  with_items:
+    - perl
+    - perl-ExtUtils-MakeMaker
+    - perl-Pod-Coverage
+    - perl-Perl-Critic
+    - perl-Test-Simple
+    - perl-Test-Perl-Critic
+    - perl-Test-Pod-Coverage
+    - perl-Test-Pod
+    - perl-TAP-Harness-Archive
+  tags:
+    - jenkins-perl
+    - yum
+    - packages
+
+- name: download jenkins-perl plugins
+  get_url: dest=/var/lib/jenkins/plugins url=http://updates.jenkins-ci.org/latest/{{ item }}
+  notify:
+    - reload jenkins
+  with_items: jenkins_perl_plugins
+  tags:
+    - jenkins-perl

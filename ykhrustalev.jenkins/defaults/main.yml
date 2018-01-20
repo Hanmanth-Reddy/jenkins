@@ -1,0 +1,5 @@
+---
+
+jenkins_app_bind_host: 127.0.0.1
+jenkins_app_bind_port: 8080
+jenkins_java_args: -Xmx256m

@@ -1,0 +1,16 @@
+---
+- name: add jenkins GPG key
+  rpm_key:
+    key: "{{ jenkins_yum_gpg_key_url }}"
+    state: present
+
+- name: add jenkins yum repository
+  template:
+    src: jenkins.repo.j2
+    dest: /etc/yum.repos.d/jenkins.repo
+    owner: root
+    group: root
+    mode: 0644
+
+- name: install jenkins
+  yum: name=jenkins state=present update_cache=yes

@@ -1,0 +1,8 @@
+---
+# vars file for jenkins
+jenkins_user: "jenkins"
+jenkins_home: "/var/lib/jenkins"
+
+jenkins_update_url: "https://updates.jenkins-ci.org/update-center.json"
+
+jenkins_cli: "/opt/jenkins-cli.jar"

@@ -1,0 +1,56 @@
+---
+- name: install ghp
+  become: yes
+  pip:
+    executable: pip3
+    name: jenkins-ghp
+    state: latest
+  register: ghp_pip
+
+- name: create workdir
+  become: yes
+  file:
+    path: "{{ jenkins_ghp_workdir }}"
+    mode: 0700
+    state: directory
+    owner: "{{ jenkins_ghp_username }}"
+
+- name: create unit dir
+  become: yes
+  file:
+    path: /etc/systemd/system/jenkins-ghp.service.d/
+    mode: 0700
+    state: directory
+
+- name: write unit overrides
+  become: yes
+  template:
+    src: service.conf
+    dest: /etc/systemd/system/jenkins-ghp.service.d/ansible.conf
+  register: ghp_unit
+
+- name: edit environment file
+  become: yes
+  template:
+    src: environmentfile.conf
+    dest: /etc/jenkins-ghp.conf
+    mode: 0600
+  register: ghp_envvars
+
+- name: reload systemd
+  when: ghp_pip|changed or ghp_unit|changed
+  become: yes
+  shell: systemctl daemon-reload
+
+- name: restart ghp
+  become: yes
+  when: ghp_pip|changed or ghp_envvars|changed or ghp_unit|changed
+  service:
+    name: jenkins-ghp
+    state: restarted
+
+- name: ensure ghp is up
+  become: yes
+  service:
+    name: jenkins-ghp
+    state: started

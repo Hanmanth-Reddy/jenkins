@@ -1,0 +1,6 @@
+---
+- name: Remove Jenkins WAR cache
+  command: rm -fr {{ jenkins_cache_dir }}/war
+
+- name: Restart Jenkins
+  service: name=jenkins state=restarted

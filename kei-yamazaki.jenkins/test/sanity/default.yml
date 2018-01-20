@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - role: ansible-jenkins
+      jenkins_user: travis
+      jenkins_group: travis
