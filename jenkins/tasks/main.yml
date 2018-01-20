@@ -1,0 +1,6 @@
+---
+# tasks file for jenkins
+ name: Installing Jenkins
+ yum: 
+  update_cache:yes
+    
