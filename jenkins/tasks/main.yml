@@ -1,8 +1,8 @@
 ---
-# tasks file for Jenkins
-# Setup/install tasks.
-  - include: setup-RedHat.yml
+   
+    # Setup/install tasks.
+  - include_tasks: setup-RedHat.yml
     when: ansible_os_family == 'RedHat'
 
-  - include: setup-Debian.yml
+  - include_tasks: setup-Debian.yml
     when: ansible_os_family == 'Debian'

@@ -1,8 +1,8 @@
 ---
-  -  name: Installing Jenkins ..
-     apt-get:
-        name: https://pkg.jenkins.io/debian-stable/binary/jenkins_2.89.3_all.deb
-        state: present
+ - name: Installing Jenkins
+   apt-get:
+      name: https://pkg.jenkins.io/debian-stable/binary/jenkins_{{jenkins_version_debian}}_all.deb
+      state: present
 
-  -  name: Ensure Jenkins service should be started
-     service: name=jenkins state:started
+ - name: Ensure Jenkins service should be started
+   service: name=jenkins state:started
