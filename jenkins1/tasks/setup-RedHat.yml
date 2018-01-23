@@ -1,0 +1,15 @@
+---
+  - name: Installing jenkins yum repo
+    yum_repository:
+          name: jenkins
+          baseurl: https://pkg.jenkins.io/redhat/jenkins.repo
+          state: present
+          gpgcheck: yes
+          gpgkey:	https://pkg.jenkins.io/redhat/jenkins.io.key
+
+   - name: updateing yum repo cache and installing jenkins server
+     yum:
+       name: jenkins-{{jenkins_version_redhat}}
+       state: present
+       update_cache: yes
+     notify: start jenkins
