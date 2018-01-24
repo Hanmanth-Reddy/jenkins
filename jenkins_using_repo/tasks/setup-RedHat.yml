@@ -1,10 +1,4 @@
 ---
-  - name: importing keys          
-    rpm_key: 
-        key: https://pkg.jenkins.io/redhat/jenkins.io.key
-        state: present
-        validate_certs: no
-
   - name: Installing jenkins yum repo
     yum_repository:
           name: jenkins
@@ -17,11 +11,11 @@
           gpgcheck: yes
           gpgkey: https://pkg.jenkins.io/redhat/jenkins.io.key
 
-#  - name: importing keys          
-#    rpm_key: 
+#  - name: importing keys
+#    rpm_key:
 #        key: https://pkg.jenkins.io/redhat/jenkins.io.key
 #        state: present
-#        validate_certs: no
+
 
   - name: installing jenkins server
     yum:
