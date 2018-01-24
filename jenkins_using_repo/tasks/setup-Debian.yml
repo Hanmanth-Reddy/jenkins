@@ -2,17 +2,16 @@
 
   - name: Add Jenkins apt repository.
     apt_repository:
-      repo: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+      repo: https://pkg.jenkins.io/debian-stable
       state: present
       update_cache: yes
 
   - name: Add Jenkins apt repository key.
     apt_key:
-      url: deb https://pkg.jenkins.io/debian-stable binary/
+      url:  https://pkg.jenkins.io/debian-stable/jenkins.io.key
       state: present
 
   - name: Installing jenkins
     apt:
-      name: jenkins-{{jenkins_version_debian}}
-      update_cache: yes
+      name: jenkins
       state: present

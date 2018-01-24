@@ -1,18 +1,16 @@
 ---
  - name: Installing jenkins yum repo
    get_url:
-       url: https://pkg.jenkins.io/redhat/jenkins.repo
-       dest: /etc/yum.repos.d/
+       url: https://pkg.jenkins.io/debian-stable
+       #dest:
 
  - name: Importing gpg key
    apt_key:
       state: present
-      key: https://pkg.jenkins.io/redhat/jenkins.io.key
+      key: https://pkg.jenkins.io/debian-stable/jenkins.io.key
 
  - name: installing jenkins server
    apt:
      name: jenkins
      state: present
    notify: start jenkins
-
-
