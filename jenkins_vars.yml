@@ -1,0 +1,7 @@
+---
+  my_jenkins_plugin:
+            ant: enabled
+            maven: enabled
+            git: enabled
+           
+

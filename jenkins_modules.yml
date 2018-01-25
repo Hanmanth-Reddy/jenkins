@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+  gather_facts: yes
+  become: yes
+  become_method: sudo
+  tasks: 
+    - name: display token
+      shell: "cat /var/lib/jenkins/secrets/initialAdminPassword"
+      register: result
+
+    - name: jobs
+      jenkins_job: 
+              name: Demo
+              state: present
+              user: admin 
+              token: register.result[0]
+              enabled: False
+              url: http://localhost:8080
+    - name: plugings
+      jenkins_plugin: 
+                name: "{{item.key}}"
+                state: "{{ 'enabled' if item.value['enabled'] else 'disabled'}}"
+      when: > 
+          'enabled' in item.value
+      with_dict: "{{ my_jenkins_plugins }}"
+
+
