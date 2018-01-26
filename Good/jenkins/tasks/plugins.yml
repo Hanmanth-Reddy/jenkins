@@ -1,0 +1,9 @@
+---
+  tasks:
+    - name: plugings
+      jenkins_plugin:
+                name: "{{item.key}}"
+                state: "{{ 'enabled' if item.value['enabled'] else 'disabled'}}"
+      when: >
+          'enabled' in item.value
+      with_dict: "{{ my_jenkins_plugins }}"

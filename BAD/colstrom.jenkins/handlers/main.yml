@@ -1,0 +1,7 @@
+---
+- name: Reload Service | jenkins
+  service:
+    state: reloaded
+    name: jenkins
+  tags:
+    - disruptive
