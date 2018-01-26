@@ -1,0 +1,8 @@
+---
+
+- name: run the main role
+  hosts: all
+  vars:
+    jenkins_plugins: ["git", "http_request", "pipeline-utility-steps", "workflow-aggregator"]
+  roles:
+    - { role: ansible-jenkins }

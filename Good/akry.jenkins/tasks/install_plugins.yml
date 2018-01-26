@@ -1,0 +1,39 @@
+---
+- name: install jenkins-cli
+  get_url:
+    url: "http://localhost:{{ jenkins_port }}/jnlpJars/jenkins-cli.jar"
+    dest: "{{ jenkins_home }}/jenkins-cli.jar"
+  register: jenkins_cli
+  until: "'OK' in jenkins_cli.msg or 'file already exists' in jenkins_cli.msg"
+  retries: 10
+  delay: 10
+
+- name: create jenkins update directory
+  file:
+    path: "{{ jenkins_home }}/updates"
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+    state: directory
+
+- name: put update-center.json
+  shell: curl -L http://updates.jenkins-ci.org/update-center.json | sed '1d;$d' > /{{jenkins_home}}/updates/default.json
+  args:
+    creates: "{{ jenkins_home }}/updates/default.json"
+
+- name: set permissions for default.json
+  file:
+    path: "{{ jenkins_home }}/updates/default.json"
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+
+- name: install plugins
+  command: >
+    java -jar {{ jenkins_home }}/jenkins-cli.jar -s http://localhost:{{ jenkins_port }}/
+    install-plugin {{ item }}
+    creates={{ jenkins_home }}/plugins/{{ item }}.jpi
+  with_items: "{{ jenkins_plugins }}"
+
+- name: restart jenkins
+  service: name=jenkins state=restarted

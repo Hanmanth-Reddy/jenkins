@@ -1,0 +1,24 @@
+---
+port:
+  tcp:8080:
+    listening: true
+    ip:
+      - 0.0.0.0
+package:
+  jenkins:
+    installed: true
+    versions:
+      - "2.89.2"
+service:
+  jenkins:
+    enabled: true
+    running: true
+user:
+  jenkins:
+    exists: true
+    groups:
+      - jenkins
+    home: /var/lib/jenkins
+group:
+  jenkins:
+    exists: true

@@ -1,0 +1,12 @@
+---
+- include: check_dist_ver_and_load_properties.yml
+  tags: always
+
+- include: install_jenkins.yml
+  tags: install
+
+- include: configure_jenkins.yml
+  tags: config
+
+- include: install_plugins.yml
+  tags: plugin

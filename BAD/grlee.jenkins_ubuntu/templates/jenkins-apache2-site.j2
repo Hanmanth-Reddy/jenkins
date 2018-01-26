@@ -1,0 +1,21 @@
+<VirtualHost *:80>
+#    LoadModule proxy_module
+#    LoadModule proxy_http_module
+
+    ServerAdmin admin@gleesoftware.com
+    ServerName jenkins.{{ ansible_fqdn }}
+
+    ProxyPreserveHost On
+    ProxyPass / http://127.0.0.1:8081/
+    ProxyPassReverse / http://127.0.0.1:8081/    
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    LogLevel warn
+
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+
+</VirtualHost>

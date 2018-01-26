@@ -1,0 +1,11 @@
+---
+jenkins_repo_url:
+jenkins_package_key:
+jenkins_package_url:
+jenkins_java_pkg_name:
+jenkins_config_file:
+jenkins_version:
+jenkins_home: "/var/lib/jenkins"
+jenkins_port: 8080
+jenkins_plugins: []
+jenkins_java_options: "-Djenkins.install.runSetupWizard=false"

@@ -1,0 +1,36 @@
+---
+- name: set jenkins_home
+  lineinfile:
+    dest: "{{ jenkins_config_file }}"
+    regexp: "^JENKINS_HOME.+"
+    line: "JENKINS_HOME={{ jenkins_home }}"
+  register: jenkins_config_changed
+  when: jenkins_home is defined
+
+- name: set jenkins_port
+  lineinfile:
+    dest: "{{ jenkins_config_file }}"
+    regexp: "^JENKINS_PORT.+"
+    line: "JENKINS_PORT={{ jenkins_port }}"
+  register: jenkins_config_changed
+  when: jenkins_port is defined
+
+- name: set jenkins java options
+  lineinfile:
+    dest: "{{ jenkins_config_file }}"
+    regexp: '^JENKINS_JAVA_OPTIONS="$'
+    line: 'JENKINS_JAVA_OPTIONS="$JENKINS_JAVA_OPTIONS {{ jenkins_java_options }}"'
+    insertafter: "^JENKINS_JAVA_OPTIONS="
+    state: present
+  register: jenkins_config_changed
+  when: jenkins_java_options is defined
+
+- name: restart jenkins
+  service: name=jenkins state=restarted
+  when: jenkins_config_changed is defined
+
+- name: wait until jenkins becomes available
+  wait_for:
+    host: localhost
+    port: "{{ jenkins_port }}"
+    delay: 10

@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: George Lee
+  description: Installs jenkins on ubuntu
+  company:
+  license: BSD
+  min_ansible_version: 1.5
+  platforms:
+  - name: Ubuntu
+    versions:
+    - saucy
+    - trusty
+  categories:
+  - development
+dependencies:
+- grlee.java_ubuntu

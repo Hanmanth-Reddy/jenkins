@@ -1,0 +1,11 @@
+---
+
+- name: run the main role
+  become: true
+  become_method: sudo
+  become_user: root
+  hosts: all
+  vars:
+    jenkins_plugins: ["git", "http_request", "pipeline-utility-steps", "workflow-aggregator"]
+  roles:
+    - { role: ansible-jenkins }

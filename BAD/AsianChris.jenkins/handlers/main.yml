@@ -1,0 +1,24 @@
+---
+- name: jenkins-start
+  service:
+    name=jenkins
+    start=started
+  sudo: yes
+
+- name: jenkins-stop
+  service:
+    name=jenkins
+    start=stopped
+  sudo: yes
+
+- name: jenkins-reload
+  service:
+    name=jenkins
+    state=reloaded
+  sudo: yes
+
+- name: jenkins-restart
+  service:
+    name=jenkins
+    state=restarted
+  sudo: yes
